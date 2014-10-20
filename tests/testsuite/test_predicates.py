@@ -1,4 +1,4 @@
-from rules.predicates import Predicate, predicate, always_true, always_false
+from rules.predicates import Predicate, predicate, always_true, always_false, NO_VALUE
 
 
 def test_lambda_predicate():
@@ -219,6 +219,17 @@ def test_no_mask():
         assert a == 'a'
         assert b == 'b'
     p('a', b='b', c='c')
+
+
+def test_no_value_marker():
+    @predicate
+    def p(a, b=None):
+        assert a == 'a'
+        assert b is None
+
+    assert not NO_VALUE
+    p.test('a')
+    p.test('a', NO_VALUE)
 
 
 def test_invocation_context():
